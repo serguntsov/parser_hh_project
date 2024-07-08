@@ -91,14 +91,14 @@ def handle_response(message):
 
 def salary_min_def(message):
     if message.text:
-        bot.send_message(message.chat.id, "Подождите, идет загрузка вакансий")
+        bot.send_message(message.chat.id, "Подождите, идет поиск актуальных вакансий")
         find_vacancies_by_name(message.text, message.chat.id)
         cursor.execute("SELECT * FROM information_schema.tables WHERE table_name = %s", ('vacancies',))
         if cursor.fetchone():
             user_id = message.chat.id
             cursor.execute("UPDATE filter SET name = %s WHERE user_id = %s;", (message.text, user_id))
             conn.commit()
-            question(message.chat.id, "От какой зарплаты мне искать вакансию?", salary_max_def, get_next_markup_1())
+            question(message.chat.id, "Установите параметр минимальной заработной платы\nВведите число.", salary_max_def, get_next_markup_1())
         else:
             msg = bot.send_message(message.chat.id, f"Такой вакансии не существует\nПопробуйте снова")
             bot.register_next_step_handler(msg, salary_min_def)
@@ -108,14 +108,14 @@ def salary_max_def(message):
         user_id = message.chat.id
         cursor.execute("UPDATE filter SET salary_min = %s WHERE user_id = %s;", (message.text, user_id))
         conn.commit()
-        question(message.chat.id, "До какой зарплаты мне искать вакансию?", value_def, get_next_markup_2())
+        question(message.chat.id, "Установите параметр максимальной заработной платы\nВведите число.", value_def, get_next_markup_2())
 
 def value_def(message):
     if message.text == "RUR" or "KZT" or "EUR" or "USD":
         user_id = message.chat.id
         cursor.execute("UPDATE filter SET salary_max = %s WHERE user_id = %s;", (message.text, user_id))
         conn.commit()
-        question(message.chat.id, f"В какой валюте мне искать?\nОтветить можно только RUR, KZT, EUR или USD", location_def, get_next_markup_3())
+        question(message.chat.id, f"Выберите валюту заработной платы.\nОтветить можно только RUR, KZT, EUR или USD", location_def, get_next_markup_3())
     else:
         msg = bot.send_message(message.chat.id, f"Такой валюты не существует\nОтветить можно только RUR, KZT, EUR или USD\nПопробуйте снова")
         bot.register_next_step_handler(msg, value_def)
@@ -127,7 +127,7 @@ def location_def(message):
         cursor.execute("UPDATE filter SET value = %s WHERE user_id = %s;", (message.text, user_id))
         conn.commit()
         print("location")
-        question(message.chat.id, "В каком городе искать вакансию?", finish_def, get_next_markup_4())
+        question(message.chat.id, "Укажите город поиска работы.", finish_def, get_next_markup_4())
     else:
         question(message.chat.id, f"В какой валюте мне искать?\nОтветить можно только RUR, KZT, EUR или USD", value_def, get_next_markup_3())
         

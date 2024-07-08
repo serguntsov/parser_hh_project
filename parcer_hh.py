@@ -68,7 +68,7 @@ def find_vacancies_by_name(name, chat_id):
         if salary:
             salary_min = salary.get('from', 'N/A')
             salary_max = salary.get('to', 'N/A')
-            value = salary.get('value', '')
+            value = salary.get('currency', '')
             salary_range = f"{salary_min}-{salary_max} {value}"
         else:
             salary_min = 'N/A'
