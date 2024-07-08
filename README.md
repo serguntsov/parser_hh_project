@@ -10,5 +10,6 @@
 Для установки проекта необходимо выполнить следующие шаги:
 1. Склонировать репозиторий на свой компьютер
 2. pip install -r requirements.txt
-3. Добавить в репозиторий файл values.py, в котором необходимо в переменную TELEGRAM_BOT_TOKEN добавить токен из @BotFather, добавить пароль от postgreSQL в переменную password_conn
-4. Запустить tg_hh_ru_bot.py
+3. Создать базу данных в postgreSQL с названием "hh"
+4. Добавить в репозиторий файл values.py, в котором необходимо в переменную TELEGRAM_BOT_TOKEN добавить токен из @BotFather, добавить пароль от postgreSQL в переменную password_conn
+5. Запустить tg_hh_ru_bot.py
